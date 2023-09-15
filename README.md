@@ -3,8 +3,18 @@
 # Test
 
 
-## Main Screen
-pantallazo
+## Home Screen
+![Screenshot from 2023-09-15 10-12-12](https://github.com/luis11anillo/IPS_test/assets/76981798/17af866d-1b77-4010-81b1-4b2017fe6d4e)
+
+## Create
+![Screenshot from 2023-09-15 10-12-41](https://github.com/luis11anillo/IPS_test/assets/76981798/81e6b905-5469-4b01-84d7-66f9ee8456d3)
+
+## Edit
+![Screenshot from 2023-09-15 10-12-59](https://github.com/luis11anillo/IPS_test/assets/76981798/e91c4acd-552e-44bf-86d3-49b7eea8de2d)
+
+## Delete
+![Screenshot from 2023-09-15 10-15-58](https://github.com/luis11anillo/IPS_test/assets/76981798/50e9336c-1f98-43f1-aba0-c17501fbd469)
+
 
 ## Frameworks & packages:
 
@@ -18,13 +28,13 @@ pantallazo
 #### Clone the project:
 
 ```bash
-  git clone https://github.com/luis11anillo/forum.git
+  https://github.com/luis11anillo/IPS_test.git
 ```
 
 #### Go to the project directory:
 
 ```bash
-  cd forum
+  cd IPS_test
 ```
 
 #### Install dependencies:
