@@ -1,6 +1,8 @@
 <p align="right"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="200" alt="Laravel Logo"></a></p>
 
-# Test
+# IPS_Test
+## Note: 
+Check the value of the `upload_max_filesize` directive in your **php.ini** file, and adjust it according to your needs. If these values are too low, you may experience issues when uploading large files.
 
 
 ## Home Screen
