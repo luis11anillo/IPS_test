@@ -65,7 +65,7 @@
               id="certificado"
               class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" 
               type="file"
-              accept="image/*"
+              accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/*"
               >
             <p class="text-gray-600 text-xs italic">Archivo (.pdf, .doc, .docx, .jpg, .png) no debe sobrepasar los 4MB</p>
           </div>
