@@ -61,7 +61,7 @@ class PetController extends Controller
     }
 
 
-    public function destroy(Pet $pet) 
+    public function destroy(Pet $pet): RedirectResponse
     {
         $pet->delete();
 
@@ -77,35 +77,38 @@ class PetController extends Controller
 
     public function update(storePetRequest $request, Pet $pet): RedirectResponse 
     {
-        // Query
-        $pet = Pet::find($pet->id);
+        try {
+            $pet = Pet::find($pet->id);
 
 
-        $data = $request->validated();
+            $data = $request->validated();
 
-        // Condicional a la carga del archivo:
-        if($request->hasFile('certificado')) {
+            // Condicional a la carga del archivo:
+            if($request->hasFile('certificado')) {
 
-            // Verifica si hay un archivo de certificado existente
-            if ($pet->certificado) {
-                // Elimina el archivo anterior
-                Storage::delete($pet->certificado);
+                // Verifica si hay un archivo de certificado existente
+                if ($pet->certificado) {
+                    // Elimina el archivo anterior
+                    Storage::delete($pet->certificado);
+                }
+
+                $file = $request->file('certificado');
+                $certificadoPath = $file->store('public/certificados');
+            } else {
+                $certificadoPath = null;
             }
 
-            $file = $request->file('certificado');
-            $certificadoPath = $file->store('public/certificados');
-        } else {
-            $certificadoPath = null;
+            $pet->update([
+                'nombre_msc' => $data['nombre_msc'],
+                'especie' => $data['especie'],
+                'raza' => $data['raza'],
+                'color_pelo' => $data['color_pelo'],
+                'certificado' => $certificadoPath,
+            ]);
+
+            return redirect()->route('pets.index', $pet);
+        } catch (\Throwable $e){
+            Log::info('Error in store pet controller', [$e->getMessage()]);
         }
-
-        $pet->update([
-            'nombre_msc' => $data['nombre_msc'],
-            'especie' => $data['especie'],
-            'raza' => $data['raza'],
-            'color_pelo' => $data['color_pelo'],
-            'certificado' => $certificadoPath,
-        ]);
-
-        return redirect()->route('pets.index', $pet);
     }
 }
