@@ -19,8 +19,33 @@ class PetController extends Controller
         return view('home', compact('pets'));
     }
 
+    public function show(Pet $pet) 
+    {
+        // Nombre del archivo
+        $nArchivo = basename($pet->certificado);
+        // Calcula el tamaño del archivo (certificdo)
+        $archivo = storage_path('app/' . $pet->certificado);
 
-    
+        if (file_exists($archivo)) {
+            
+            // bytes 
+            $tamañoBytes = filesize($archivo);
+            //MB
+            $tamañoMB = number_format($tamañoBytes / (1024 * 1024), 2);
+
+        } else {
+            $tamañoMB = '0';
+        }
+
+        $infoArchvo = [
+            'nombre' => $nArchivo,
+            'tamaño' => $tamañoMB,
+        ];
+
+        return view('pet.show', compact('pet', 'infoArchvo'));
+    }
+
+
     public function create()
     {
         return view('pet.create');  
