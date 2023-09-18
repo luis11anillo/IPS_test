@@ -26,15 +26,14 @@ class PetController extends Controller
         // Calcula el tamaño del archivo (certificdo)
         $archivo = storage_path('app/' . $pet->certificado);
 
+        $tamañoMB = '0';
+
         if (file_exists($archivo)) {
-            
             // bytes 
             $tamañoBytes = filesize($archivo);
             //MB
             $tamañoMB = number_format($tamañoBytes / (1024 * 1024), 2);
 
-        } else {
-            $tamañoMB = '0';
         }
 
         $infoArchvo = [
@@ -54,21 +53,18 @@ class PetController extends Controller
     
     public function store(storePetRequest $request): RedirectResponse
     {
-
         try { 
         
         $data = $request->validated(); 
             
+        $certificadoPath = null;
 
         // Condicional a la carga del archivo:
         if($request->hasFile('certificado')) {
             $file = $request->file('certificado');
             $certificadoPath = $file->store('public/certificados');
-        } else {
-            $certificadoPath = null;
         }
 
- 
         Pet::create([
             'nombre_msc' => $data['nombre_msc'],
             'especie' => $data['especie'],
@@ -80,7 +76,8 @@ class PetController extends Controller
 
         return redirect()->route('pets.index');
         } catch (\Throwable $e){
-            Log::info('Error in store pet controller', [$e->getMessage()]);
+            Log::error('Error in store pet controller', [$e->getMessage()]);
+            abort(500, 'Ocurrió un error al guardar el registro.');
         }
         
     }
@@ -88,9 +85,13 @@ class PetController extends Controller
 
     public function destroy(Pet $pet): RedirectResponse
     {
-        $pet->delete();
-
-        return redirect()->route('pets.index');
+        try {
+            $pet->delete();
+            return redirect()->route('pets.index');
+        } catch (\Throwable $e){
+            Log::error('Error in destroy pet controller', [$e->getMessage()]);
+            abort(500, 'Ocurrió un error al eliminar el registro.');
+        }
     }
 
 
@@ -103,10 +104,10 @@ class PetController extends Controller
     public function update(storePetRequest $request, Pet $pet): RedirectResponse 
     {
         try {
-            $pet = Pet::find($pet->id);
-
-
+            //$pet = Pet::find($pet->id);
             $data = $request->validated();
+
+            $certificadoPath = null;
 
             // Condicional a la carga del archivo:
             if($request->hasFile('certificado')) {
@@ -119,8 +120,6 @@ class PetController extends Controller
 
                 $file = $request->file('certificado');
                 $certificadoPath = $file->store('public/certificados');
-            } else {
-                $certificadoPath = null;
             }
 
             $pet->update([
@@ -133,7 +132,8 @@ class PetController extends Controller
 
             return redirect()->route('pets.index', $pet);
         } catch (\Throwable $e){
-            Log::info('Error in store pet controller', [$e->getMessage()]);
+            Log::error('Error in update pet controller', [$e->getMessage()]);
+            abort(500, 'Ocurrió un error al actualizar el registro.');
         }
     }
 }
